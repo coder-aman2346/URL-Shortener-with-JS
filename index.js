@@ -6,6 +6,9 @@ const expressSession = require('express-session');
 const MemoryStore = require('memorystore')(expressSession)
 const passport = require('passport');
 const flash = require('connect-flash');
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 const app = express();
 
@@ -45,6 +48,6 @@ app.use(function (req, res, next) {
 
 app.use(require('./controller/routes.js'));
 
-const PORT = process.env.PORT || 8000;
+const port = process.env.PORT || 8000;
 
-app.listen(PORT, () => console.log("Server Started At " + PORT));
+app.listen(port, () => console.log("Server Started At " + port));

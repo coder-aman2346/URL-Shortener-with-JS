@@ -25,7 +25,7 @@ router.get('/user/send-verification-email', checkAuth, async (req, res) => {
         // since we won't show any such option in the UI 
         // most probably this is being called by mistake or can be an attack
         // simply redirect to profile 
-        res.redirect('/profile');
+        res.redirect('/dashboard');
     } else {
         // generate a token 
         var token = crypto.randomBytes(32).toString('hex');
@@ -53,14 +53,14 @@ router.get('/user/verifyemail', async (req, res) => {
             await userData.save();
             // delete the token now itself
             await resetToken.findOneAndDelete({ token: token });
-            res.redirect('/profile');
+            res.redirect('/dashboard');
         } else {
             res.render('profile', { username: req.user.username, verified: req.user.isVerified, err: "Invalid token or Token has expired, Try again." });
         }
     } else {
         // doesnt have a token
         // I will simply redirect to profile 
-        res.redirect('/profile');
+        res.redirect('/dashboard');
     }
 });
 

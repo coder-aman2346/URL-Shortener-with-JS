@@ -35,9 +35,9 @@ router.get('/signup', (req, res) => {
 
 router.post('/signup', (req, res) => {
     // get all the values 
-    const { email, username, password, confirmpassword } = req.body;
+    const { email, password, confirmpassword } = req.body;
     // check if the are empty 
-    if (!email || !username || !password || !confirmpassword) {
+    if (!email || !password || !confirmpassword) {
         res.render("signup", { err: "All Fields Required !", csrfToken: req.csrfToken() });
     } else if (password != confirmpassword) {
         res.render("signup", { err: "Password Don't Match !", csrfToken: req.csrfToken() });
@@ -46,7 +46,7 @@ router.post('/signup', (req, res) => {
         // validate email and username and password 
         // skipping validation
         // check if a user exists
-        user.findOne({ $or: [{ email: email }, { username: username }] }, function (err, data) {
+        user.findOne({ email: email  }, function (err, data) {
             if (err) throw err;
             if (data) {
                 res.render("signup", { err: "User Exists, Try Logging In !", csrfToken: req.csrfToken() });
@@ -59,7 +59,6 @@ router.post('/signup', (req, res) => {
                         if (err) throw err;
                         // save user in db
                         user({
-                            username: username,
                             email: email,
                             password: hash,
                             googleId: null,
@@ -81,7 +80,7 @@ router.post('/signup', (req, res) => {
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         failureRedirect: '/login',
-        successRedirect: '/profile',
+        successRedirect: '/dashboard',
         failureFlash: true,
     })(req, res, next);
 });
@@ -96,13 +95,11 @@ router.get('/logout', (req, res) => {
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email',] }));
 
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('/profile');
+    res.redirect('/dashboard');
 });
 
-router.get('/profile', checkAuth, (req, res) => {
-    // adding a new parameter for checking verification
-    res.render('profile', { username: req.user.username, verified : req.user.isVerified });
-
+router.get('/dashboard', checkAuth, (req, res) => {
+    res.render('dashboard', { verified : req.user.isVerified,  logged: true});
 });
 
 

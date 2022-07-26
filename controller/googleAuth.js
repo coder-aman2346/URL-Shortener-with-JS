@@ -21,7 +21,6 @@ module.exports = function (passport) {
             } else {
                 // create a user
                 user({
-                    username: profile.displayName,
                     email: profile.emails[0].value,
                     googleId: profile.id,
                     password: null,
