@@ -20,7 +20,7 @@ app.use('/static', express.static(__dirname +'/static'));
 app.use(express.urlencoded({ extended: true }));
 
 // const mongoURI = require('./config/monkoKEY');
-const uri = process.env.mongoUri;
+const uri = process.env.mongoURI;
 mongoose.connect(encodeURI(uri), { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true, },).then(() => console.log("Connected !"),);
 
 app.use(cookieParser('random'));
