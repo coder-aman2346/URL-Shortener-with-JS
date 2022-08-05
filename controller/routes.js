@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const user = require('../model/user');
+const urls = require('../model/url');
 const bcryptjs = require('bcryptjs');
 const passport = require('passport');
 require('./passportLocal')(passport);
@@ -17,13 +18,6 @@ function checkAuth(req, res, next) {
     }
 }
 
-router.get('/', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.render("index", { logged: true });
-    } else {
-        res.render("index", { logged: false });
-    }
-});
 
 router.get('/login', (req, res) => {
     res.render("login", { csrfToken: req.csrfToken() });
@@ -46,7 +40,7 @@ router.post('/signup', (req, res) => {
         // validate email and username and password 
         // skipping validation
         // check if a user exists
-        user.findOne({ email: email  }, function (err, data) {
+        user.findOne({ email: email }, function (err, data) {
             if (err) throw err;
             if (data) {
                 res.render("signup", { err: "User Exists, Try Logging In !", csrfToken: req.csrfToken() });
@@ -99,10 +93,92 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
 });
 
 router.get('/dashboard', checkAuth, (req, res) => {
-    res.render('dashboard', { verified : req.user.isVerified,  logged: true});
+
+
+    urls.find({ owned : req.user.email }, (err, data) => {
+        if(err) throw err;
+        
+        res.render('dashboard', { verified: req.user.isVerified, logged: true, csrfToken: req.csrfToken(), urls : data });
+        
+    });
+
 });
 
 
+router.post('/create', checkAuth, (req, res) => {
+    const { original, short } = req.body;
+
+    if (!original || !short) {
+
+        res.render('dashboard', { verified: req.user.isVerified, logged: true, csrfToken: req.csrfToken(), err: "Empty Fields !" });
+    } else {
+        urls.findOne({ slug: short }, (err, data) => {
+            if (err) throw err;
+            if (data) {
+                res.render('dashboard', { verified: req.user.isVerified, logged: true, csrfToken: req.csrfToken(), err: "Try Different Short Url, This exists !" });
+
+            } else {
+                urls({
+                    originalUrl: original,
+                    slug: short,
+                    owned: req.user.email,
+                }).save((err) => {
+                    res.redirect('/dashboard');
+                });
+            }
+        })
+    }
+
+});
+
 router.use(userRoutes);
+
+
+router.get('/:slug?', async (req, res) => {
+
+    if (req.params.slug != undefined) {
+        var data = await urls.findOne({ slug: req.params.slug });
+        if (data) {
+            data.visits = data.visits + 1;
+
+            var ref = req.query.ref;
+            if (ref) {
+                switch (ref) {
+                    case 'fb':
+                        data.visitsFB = data.visitsFB + 1;
+                        break;
+                    case 'ig':
+                        data.visitsIG = data.visitsIG + 1;
+                        break;
+                    case 'yt':
+                        data.visitsYT = data.visitsYT + 1;
+                        break;
+                }
+            }
+
+            await data.save();
+
+            res.redirect(data.originalUrl);
+        } else {
+            if (req.isAuthenticated()) {
+                res.render("index", { logged: true, err: true });
+            } else {
+                res.render("index", { logged: false, err: true });
+            }
+
+        }
+
+
+    } else {
+        if (req.isAuthenticated()) {
+            res.render("index", { logged: true });
+        } else {
+            res.render("index", { logged: false });
+        }
+    }
+
+});
+
+
 
 module.exports = router;

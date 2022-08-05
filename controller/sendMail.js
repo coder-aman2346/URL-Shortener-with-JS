@@ -3,8 +3,8 @@ const nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "<your email>",
-    pass: "<password>",
+    user: "amanprasad1072@gmail.com",
+    pass: "<Aman1495>",
   },
 });
 
@@ -13,7 +13,7 @@ module.exports.sendResetEmail = async (email, token) => {
   var url = "https://url-shortener-with-js.herokuapp.com/user/reset-password?token=" + token;
 
   await smtpTransport.sendMail({
-    from: "<your email>",
+    from: "amanprasad1072@gmail.com",
     to: email,
     subject: "RESET YOUR PASSWORD",
     text: `Click on this link to reset your password ${url}`,
