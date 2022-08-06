@@ -11,7 +11,7 @@
     <!-- Bootstrap CDN  -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>Authentications</title>
+    <title>Shortly</title>
     <style>
         body {
             font-family: 'Recursive', sans-serif;
@@ -28,9 +28,11 @@
 <body>
 
     <!-- navbar  -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Authentications</a>
+    <nav class="navbar navbar-expand-lg navbar-light p-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/images/logo.png" width="150" height="36" alt="">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,7 +41,7 @@
 
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Login</a>
@@ -72,11 +74,6 @@
                             <label for="email">Enter Your Email</label>
                             <input type="email" class="form-control form-control-lg" name="email" id="email"
                                 autocomplete="off" placeholder="Email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="username">Choose A Username</label>
-                            <input type="text" class="form-control form-control-lg" name="username" id="username"
-                                autocomplete="off" placeholder="Username">
                         </div>
                         <div class="mb-3">
                             <label for="password">Choose A Password</label>

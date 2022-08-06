@@ -10,7 +10,7 @@ var smtpTransport = nodemailer.createTransport({
 
 module.exports.sendResetEmail = async (email, token) => {
    // change first part to your domain
-  var url = "https://url-shortener-with-js.herokuapp.com/user/reset-password?token=" + token;
+  var url = "http://localhost:8000/user/reset-password?token=" + token;
 
   await smtpTransport.sendMail({
     from: "amanprasad1072@gmail.com",
@@ -23,10 +23,10 @@ module.exports.sendResetEmail = async (email, token) => {
 
 module.exports.sendVerifyEmail = async (email, token) => {
   // change first part to your domain
-  var url = "https://url-shortener-with-js.herokuapp.com/user/verifyemail?token=" + token;
+  var url = "http://localhost:8000/user/verifyemail?token=" + token;
 
   await smtpTransport.sendMail({
-    from: "<your email>",
+    from: "amanprasad1072@gmail.com",
     to: email,
     subject: "VERIFY Your EMAIL",
     text: `Click on this link to verify ${url}`,

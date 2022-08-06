@@ -3,25 +3,21 @@ const mongoose = require('mongoose');
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
-const MemoryStore = require('memorystore')(expressSession)
+var MemoryStore = require('memorystore')(expressSession)
 const passport = require('passport');
 const flash = require('connect-flash');
-const dotenv = require("dotenv");
-dotenv.config();
-
 
 const app = express();
-app.use(express.json());
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views',);
 
-app.use('/static', express.static(__dirname +'/static'));
+app.use('/static', express.static(__dirname + '/static'));
 
 app.use(express.urlencoded({ extended: true }));
 
-// const mongoURI = require('./config/monkoKEY');
-const uri = process.env.mongoURI;
-mongoose.connect(encodeURI(uri), { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true, },).then(() => console.log("Connected !"),);
+const mongoURI = require('./config/monkoKEY');
+mongoose.connect(encodeURI(mongoURI), { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true, },).then(() => console.log("Connected !"),);
 
 app.use(cookieParser('random'));
 
@@ -49,8 +45,6 @@ app.use(function (req, res, next) {
 
 app.use(require('./controller/routes.js'));
 
-const port = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8000;
 
-app.listen(port, function(){
-    console.log("Express server listening on port %d in %s mode", port);
-  });
+app.listen(PORT, () => console.log("Server Started At " + PORT));
