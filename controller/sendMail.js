@@ -14,7 +14,7 @@ oAuth2Client.setCredentials({refresh_token: refreshToken})
 
 module.exports.sendResetEmail = async (email, token) => {
    // change first part to your domain
-  var url = "http://localhost:8000/user/reset-password?token=" + token;
+  var url = "https://a-url.herokuapp.com/user/reset-password?token=" + token;
 
   await smtpTransport.sendMail({
     from: "amanprasad1072@gmail.com",
@@ -28,7 +28,7 @@ module.exports.sendResetEmail = async (email, token) => {
 module.exports.sendVerifyEmail = async (email, token) => {
   // change first part to your domain
   console.log(email);
-  var url = "http://localhost:8000/user/verifyemail?token=" + token;
+  var url = "https://a-url.herokuapp.com/user/verifyemail?token=" + token;
   
   var mailOptions = {
     from: 'amanprasad1072@gmail.com',//replace with your email
