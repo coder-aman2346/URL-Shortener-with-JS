@@ -131,17 +131,6 @@
                                     placeholder="Original Long URL"
                                   />
                                 </div>
-                                <div class="mb-3">
-                                  <label for="short">Your Short slug</label>
-                                  <input
-                                    type="text"
-                                    class="form-control form-control-lg"
-                                    name="short"
-                                    id="short"
-                                    autocomplete="off"
-                                    placeholder="short"
-                                  />
-                                </div>
                                 <div class="d-grid gap-3 mb-3">
                                   <input
                                     type="submit"
@@ -242,6 +231,12 @@
                   </div>
                 </div>
 
+                <div>
+                  Your shortened URL is 
+                  <div>
+                    <a href="http://localhost:8000/<%= url['slug'] %>">http://localhost:8000/<%= url['slug'] %></a>
+                  </div>
+                </div>
                 <a href="http://localhost:8000/<%= url['slug'] %>" class="btn btn-primary mt-4">Visit Short Url</a>
                 
               </div>
