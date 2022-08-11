@@ -107,13 +107,13 @@ router.get('/dashboard', checkAuth, (req, res) => {
 
 
 router.post('/create', checkAuth, (req, res) => {
-    const { original, short } = req.body;
+    let { original } = req.body;
 
-    if (!original || !short) {
+    if (!original) {
 
         res.render('dashboard', { verified: req.user.isVerified, logged: true, csrfToken: req.csrfToken(), err: "Empty Fields !" });
     } else {
-        short = uuidv4();
+        let short = uuidv4();
         urls.findOne({ slug: short }, (err, data) => {
             if (err) throw err;
             if (data) {
