@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 const express = require('express');
 const router = express.Router();
 const user = require('../model/user');
@@ -112,6 +113,7 @@ router.post('/create', checkAuth, (req, res) => {
 
         res.render('dashboard', { verified: req.user.isVerified, logged: true, csrfToken: req.csrfToken(), err: "Empty Fields !" });
     } else {
+        short = uuidv4();
         urls.findOne({ slug: short }, (err, data) => {
             if (err) throw err;
             if (data) {
