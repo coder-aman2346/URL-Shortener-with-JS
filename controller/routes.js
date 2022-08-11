@@ -113,7 +113,15 @@ router.post('/create', checkAuth, (req, res) => {
 
         res.render('dashboard', { verified: req.user.isVerified, logged: true, csrfToken: req.csrfToken(), err: "Empty Fields !" });
     } else {
+<<<<<<< HEAD
         let short = uuidv4();
+=======
+<<<<<<< HEAD
+        let short = uuidv4();
+=======
+        short = uuidv4();
+>>>>>>> 0015651c8a815898400280958c676ca8768d54ef
+>>>>>>> 379e3b4a2728820e7cd529d1f5bbfcaa5820472d
         urls.findOne({ slug: short }, (err, data) => {
             if (err) throw err;
             if (data) {
